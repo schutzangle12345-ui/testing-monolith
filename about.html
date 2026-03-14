@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About BookLux | The AI Luxury Concierge</title>
+    <style>
+        :root {
+            --color-primary: #7C3AED; /* Vibrant Purple */
+            --color-primary-dark: #5B21B6;
+            --color-secondary: #F97316; /* Vibrant Orange */
+            --color-background: #0F172A;
+            --color-surface: #1E293B;
+            --color-text: #F8FAFC;
+            --color-text-muted: #94A3B8;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --gradient-main: linear-gradient(135deg, #7C3AED 0%, #F97316 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        h1 { font-size: clamp(3rem, 8vw, 5rem); margin-bottom: 1.5rem; }
+        h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 1.25rem; }
+        p { font-size: 1.125rem; margin-bottom: 1.5rem; color: var(--color-text-muted); }
+
+        /* Layout Components */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+        }
+
+        .nav-links a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-secondary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s, opacity 0.2s;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--gradient-main);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* Hero Section */
+        .about-hero {
+            padding: 120px 0 80px;
+            background: radial-gradient(circle at top right, rgba(124, 58, 237, 0.2), transparent),
+                        radial-gradient(circle at bottom left, rgba(249, 115, 22, 0.1), transparent);
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--color-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        /* Story Section */
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (min-width: 992px) {
+            .story-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .highlight-card {
+            background: var(--color-surface);
+            padding: 3rem;
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--gradient-main);
+        }
+
+        /* Values Grid */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .value-item {
+            background: var(--color-surface);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .value-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .value-item h3 {
+            color: var(--color-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Form Section */
+        .contact-section {
+            background: var(--color-surface);
+            border-radius: 3rem;
+            margin: 4rem 1.5rem;
+            padding: 4rem 2rem;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--color-background);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            color: white;
+            font-family: inherit;
+        }
+
+        textarea { height: 150px; }
+
+        /* Footer */
+        footer {
+            padding: 80px 0 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li { margin-bottom: 0.75rem; }
+        .footer-links a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover { color: var(--color-secondary); }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--color-text-muted);
+        }
+
+        .accent-text {
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav>
+            <a href="index.html" style="text-decoration:none; color:inherit;">
+                <span style="font-weight:700;font-size:1.25rem">testing-monolith</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="contact.html">Contact</a>
+                <a href="contact.html" class="btn btn-primary" data-track="cta_click">Book Now</a>
+            </div>
+        </nav>
+    </div>
+
+    <header class="about-hero">
+        <div class="container">
+            <span class="hero-badge">Our Mission</span>
+            <h1>Reimagining <span class="accent-text">Luxury Logistics</span></h1>
+            <p style="max-width: 800px; margin: 0 auto;">BookLux was born from a simple observation: luxury travel should be as seamless as the experience itself. We are building the world's most intelligent chat concierge for the global elite.</p>
+        </div>
+    </header>
+
+    <section>
+        <div class="container">
+            <div class="story-grid">
+                <div>
+                    <h2 class="accent-text">The Fragmented State of Luxury</h2>
+                    <p>For too long, booking a private jet, a yacht charter, or a villa in the Cote d'Azur required a dozen different brokers, endless email threads, and opaque pricing structures. Personal assistants and lifestyle managers were buried under contracts and wire transfer verifications.</p>
+                    <p><strong>BookLux changes the game.</strong> We consolidate the world's finest service providers into a single AI-driven interface. One conversation, total control.</p>
+                </div>
+                <div class="highlight-card">
+                    <h3>Problems We Solve</h3>
+                    <ul style="list-style: none; margin-top: 1.5rem;">
+                        <li style="margin-bottom: 1rem;">✅ <strong>Unified Interface:</strong> No more jumping between 10+ apps and vendors.</li>
+                        <li style="margin-bottom: 1rem;">✅ <strong>Price Transparency:</strong> Clear, comparative pricing for jets, yachts, and villas.</li>
+                        <li style="margin-bottom: 1rem;">✅ <strong>Centralized Management:</strong> One place for all contracts, changes, and re-bookings.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: rgba(124, 58, 237, 0.05);">
+        <div class="container">
+            <h2 style="text-align: center;">Our Core <span class="accent-text">Values</span></h2>
+            <div class="values-grid">
+                <div class="value-item">
+                    <h3>Speed & Precision</h3>
+                    <p>In the world of high-net-worth travel, timing is everything. Our AI processes complex requirements in seconds, delivering trusted options for private drivers or heavy jets before the competition even answers the phone.</p>
+                </div>
+                <div class="value-item">
+                    <h3>Uncompromising Quality</h3>
+                    <p>We only partner with vetted providers. From private chefs with Michelin experience to yacht crews in the Balearics, every service undergoes a rigorous safety and quality check.</p>
+                </div>
+                <div class="value-item">
+                    <h3>Global Reach</h3>
+                    <p>Whether it's an empty leg flight to Dubai or a ski chalet in Aspen, our network spans every major luxury destination, ensuring local expertise with a global standard of service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <h2>Who We Serve</h2>
+                <p>BookLux is designed for high-net-worth individuals, family offices, and the dedicated personal assistants who manage their lives. We understand the unique pressures of VIP nightlife, family-friendly luxury travel, and the need for absolute discretion in every booking.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="contact-section">
+            <div class="form-container">
+                <h2 style="text-align: center; margin-bottom: 2rem;">Inquire About Our <span class="accent-text">Concierge Services</span></h2>
+                <form data-backend="form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Interested Service</label>
+                        <select id="service" name="service">
+                            <option value="private-jet">Private Jet Charter</option>
+                            <option value="yacht-charter">Yacht Charter</option>
+                            <option value="luxury-villa">Villa / Chalet Rental</option>
+                            <option value="private-driver">Private Driver & Transfers</option>
+                            <option value="vip-nightlife">VIP Nightlife & Experiences</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">How can we help?</label>
+                        <textarea id="message" name="message" placeholder="Describe your dates, location, and specific preferences..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%" data-track="cta_click">Send Inquiry</button>
+                    <p data-success style="display:none; color: #10B981; font-weight: bold; margin-top: 1rem; text-align: center;">Success! Our concierge team will be in touch shortly.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="container">
+        <div class="footer-grid">
+            <div>
+                <span style="font-weight:700;font-size:1.25rem">testing-monolith</span>
+                <p style="margin-top: 1rem; font-size: 0.875rem;">The AI chat concierge for the world's most discerning travelers.</p>
+                <div class="social-icons">
+                    <a href="#"><svg viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+                    <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.264-.149-4.771-1.665-4.919-4.919-.058-1.266-.069-1.645-.069-4.849 0-3.205.012-3.584.069-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                </div>
+            </div>
+            <div>
+                <h4>Navigation</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Services</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Private Jets</a></li>
+                    <li><a href="#">Yacht Charters</a></li>
+                    <li><a href="#">Villa Rentals</a></li>
+                    <li><a href="#">Luxury Drivers</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <p style="font-size: 0.875rem; color: var(--color-text-muted);">concierge@example.com</p>
+                <p style="font-size: 0.875rem; color: var(--color-text-muted);">+1 (555) 000-0000</p>
+            </div>
+        </div>
+        <div style="text-align: center; font-size: 0.875rem; color: var(--color-text-muted);">
+            Copyright © 2026 testing-monolith. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+    (function() {
+      var BACKEND = 'http://localhost:3000/api';
+      var TOKEN = '653dc94db8044e312cf7d38511627118cbdb91c64f4ca67b8952594025a09dec';
+      var DOMAIN = 'testing-monolith';
+      var FORM_ID = 'cmmppin6n0001zcv480je5fo1';
+      var HEADERS = { 'Content-Type': 'application/json', 'X-Token': TOKEN, 'X-Domain': DOMAIN };
+    
+      // 1. Auto-track pageview
+      fetch(BACKEND + '/track', {
+        method: 'POST',
+        headers: HEADERS,
+        body: JSON.stringify({ event: 'pageview', path: window.location.pathname })
+      }).catch(function(){});
+    
+      // 2. Track CTA clicks
+      document.addEventListener('click', function(e) {
+        var el = e.target.closest('[data-track]');
+        if (el) {
+          fetch(BACKEND + '/track', {
+            method: 'POST',
+            headers: HEADERS,
+            body: JSON.stringify({ event: el.getAttribute('data-track'), path: window.location.pathname })
+          }).catch(function(){});
+        }
+      });
+    
+      // 3. Handle all forms (Contact, Signup, Waitlist)
+      document.addEventListener('submit', function(e) {
+        var form = e.target.closest('form[data-backend]');
+        if (!form) return;
+        e.preventDefault();
+        var type = form.getAttribute('data-backend');
+        var endpoint = type === 'signup' ? '/users' : '/forms/submit';
+        
+        // Extract dynamic form fields
+        var data = {};
+        new FormData(form).forEach(function(v, k) { data[k] = v; });
+        
+        // Add Form ID if it's a general form and we have it
+        if (type === 'form' && FORM_ID) {
+          data.formId = FORM_ID;
+        }
+    
+        var btn = form.querySelector('button[type="submit"]');
+        var originalText = '';
+        if (btn) {
+          originalText = btn.innerText;
+          btn.innerText = 'Sending...';
+          btn.disabled = true;
+        }
+    
+        // Track Form Submission Event
+        fetch(BACKEND + '/track', {
+          method: 'POST',
+          headers: HEADERS,
+          body: JSON.stringify({ 
+            event: 'form_submission', 
+            path: window.location.pathname,
+            metadata: { formType: type } 
+          })
+        }).catch(function(){});
+    
+        // Submit Form Data
+        fetch(BACKEND + endpoint, {
+          method: 'POST',
+          headers: HEADERS,
+          body: JSON.stringify(data)
+        }).then(function(r) { return r.json(); }).then(function(res) {
+          if (res.success) {
+            var msg = form.querySelector('[data-success]');
+            if (msg) { msg.style.display = 'block'; }
+            form.reset();
+            if (btn) btn.style.display = 'none';
+          } else {
+            alert(res.error || 'Failed to submit form');
+            if (btn) { btn.innerText = originalText; btn.disabled = false; }
+          }
+        }).catch(function(){
+          alert('Network error occurred');
+          if (btn) { btn.innerText = originalText; btn.disabled = false; }
+        });
+      });
+    })();
+    </script>
+</body>
+</html>
